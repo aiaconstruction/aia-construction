@@ -132,6 +132,13 @@ function sendWhatsApp(e){
   const text=`Hello AIA CONSTRUCTION,%0A%0AName: ${encodeURIComponent(name)}%0ARequirement: ${encodeURIComponent(workers)}%0AService: ${encodeURIComponent(service)}%0ADetails: ${encodeURIComponent(msg)}`;
   window.open('https://wa.me/917646030019?text='+text,'_blank');
 }
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js');
+  });
+}
+</script>  
 </script>
 </body>
 </html>
