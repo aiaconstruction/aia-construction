@@ -1,0 +1,9 @@
+{
+  "name": "AIA CONSTRUCTION",
+  "short_name": "AIA Construction",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f3f5f7",
+  "theme_color": "#17202a",
+  "icons": []
+}
