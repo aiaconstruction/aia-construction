@@ -289,7 +289,94 @@ function sendWhatsApp(e){
   window.open('https://wa.me/917646030019?text='+text,'_blank');
 }
 </script>
+<script>
+let labourData = JSON.parse(localStorage.getItem("aiaLabour") || "[]");
+let attendanceData = JSON.parse(localStorage.getItem("aiaAttendance") || "[]");
 
+function saveLabour(){
+  localStorage.setItem("aiaLabour", JSON.stringify(labourData));
+}
+
+function renderLabour(){
+  const list = document.getElementById("labourList");
+  const count = document.getElementById("labourCount");
+
+  if (!list || !count) return;
+
+  count.textContent = labourData.length;
+  list.innerHTML = "";
+
+  labourData.forEach((labour,index) => {
+    list.innerHTML += `
+      <div class="labour-item">
+        <div>
+          <b>${labour.name}</b>
+          <small>${labour.role} • ₹${labour.rate}/day</small>
+        </div>
+        <button class="app-btn" onclick="deleteLabour(${index})">
+          Delete
+        </button>
+      </div>
+    `;
+  });
+}
+
+function addLabour(e){
+  e.preventDefault();
+
+  const name = document.getElementById("labourName").value;
+  const role = document.getElementById("labourRole").value;
+  const rate = document.getElementById("labourRate").value;
+
+  labourData.push({
+    name: name,
+    role: role,
+    rate: Number(rate)
+  });
+
+  saveLabour();
+  renderLabour();
+
+  e.target.reset();
+}
+
+function deleteLabour(index){
+  labourData.splice(index,1);
+  saveLabour();
+  renderLabour();
+}
+
+function markAttendance(){
+  const today = new Date().toISOString().split("T")[0];
+
+  attendanceData.push(today);
+
+  localStorage.setItem(
+    "aiaAttendance",
+    JSON.stringify(attendanceData)
+  );
+
+  document.getElementById("presentCount").textContent =
+    attendanceData.length;
+}
+
+function calculatePayment(){
+  const rate = Number(
+    document.getElementById("paymentRate").value
+  );
+
+  const days = Number(
+    document.getElementById("paymentDays").value
+  );
+
+  const total = rate * days;
+
+  document.getElementById("paymentTotal").textContent =
+    "₹" + total.toLocaleString("en-IN");
+}
+
+renderLabour();
+</script>
 <script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
